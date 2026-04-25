@@ -1,27 +1,51 @@
 bl_info = {
     "name": "One Click Bake",
-    "author": "You",
-    "version": (0, 1, 0),
+    "author": "Bronson",
+    "version": (0, 6, 0),
     "blender": (3, 0, 0),
     "category": "Object",
+    "description": "One-click baking directly into shader nodes",
 }
 
 import bpy
-from .bake_operator import OBJECT_OT_oneclick_bake
+
+from .bake_operator import (
+    OBJECT_OT_bake_albedo,
+    OBJECT_OT_bake_normal,
+    OBJECT_OT_bake_roughness,
+)
 
 
-def menu_func(self, context):
-    self.layout.operator(OBJECT_OT_oneclick_bake.bl_idname)
+class VIEW3D_PT_oneclick_bake(bpy.types.Panel):
+    bl_label = "One Click Bake"
+    bl_idname = "VIEW3D_PT_oneclick_bake"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = "Bake"
+
+    def draw(self, context):
+        layout = self.layout
+        layout.operator("object.bake_albedo")
+        layout.operator("object.bake_normal")
+        layout.operator("object.bake_roughness")
+
+
+classes = (
+    OBJECT_OT_bake_albedo,
+    OBJECT_OT_bake_normal,
+    OBJECT_OT_bake_roughness,
+    VIEW3D_PT_oneclick_bake,
+)
 
 
 def register():
-    bpy.utils.register_class(OBJECT_OT_oneclick_bake)
-    bpy.types.VIEW3D_MT_object.append(menu_func)
+    for c in classes:
+        bpy.utils.register_class(c)
 
 
 def unregister():
-    bpy.types.VIEW3D_MT_object.remove(menu_func)
-    bpy.utils.unregister_class(OBJECT_OT_oneclick_bake)
+    for c in reversed(classes):
+        bpy.utils.unregister_class(c)
 
 
 if __name__ == "__main__":

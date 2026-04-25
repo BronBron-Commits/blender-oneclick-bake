@@ -1,5 +1,13 @@
 # Blender One Click Bake
 
-Select object → click bake → get albedo texture.
+One-click texture baking for Blender → game/web export.
 
-Goal: remove Blender baking setup pain.
+## Features
+- Select object → click button → done
+- Outputs:
+  - Albedo map
+  - Normal map
+- Automatically saved to `/bakes/` folder
+
+## Goal
+Remove the painful manual baking workflow in Blender.
